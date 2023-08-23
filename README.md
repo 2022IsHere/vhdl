@@ -1,92 +1,68 @@
-# Lab_Exercises
+# Embedded Linux lab setup
 
+## Introduction
 
+Typically all embedded devices are developed in <b>cross-development environment</b>: The <b>development system</b> is a desktop PC with graphical IDE (Integrated Development Environment) providing editor for source code and debug capabilities, i.e. breakpoints, source code single line stepping, variable content visibility etc. The <b>target system</b> is an embedded device with very limited capabilities: low processing power, small memory size, no graphical user interfaces. Additionally the target runs on different CPU architecture, so it necessary to have <b>cross-compilation toolchain</b> in development system in order to produce machine code for target CPU.
+To enable debugging, the development system needs to be able to set and monitor application states within target system. There are a couple of solutions:
+- All modern CPUs have JTAG interface that provides hardware level access to processor registers and system memory. In practise you would attach <b>JTAG debugger</b> to target board, and connect debugger with USB to development system. Development system IDE has drivers for that specific JTAG debugger and so it is possible to do full debugging on target system. This method is suitable especially for bare-metal systems (those have no OS) and RTOS systems. 
+- If target system is running capable OS like Linux it is possible to do application <b>software debugging</b> based on interrupt (SWI). Debugger process replaces instructions within target code with SWI commands, and takes control of the application in interrupt service. The same approach work both in native debugging (gdb) and cross-debugging (gdbserver).
+- In both previous solutions the target system must be stopped in order to study variable contents, which makes it difficult to fully debug real-time systems. For example when debugging a washing machine motor control, the breakpoint will not stop the washing drum from rotating, only the program thread will stop. You debug with printf-lines, if your program can tolerate the additional printing delays. The ultimate solution is to use a <b>processor emulator</b>, which is a box of logic (FPGA) replicating CPU internals with all internal registers implemented as dual port RAM memory. Dual port RAM has two independent address/data buses, so it is possible to access the memory data from CPU emulation side and debugger side simultaneously. So, while your application is running in CPU emulation logic connected target hardware (emulator is connected to a pod replacing the CPU on target circuit board), the debugger can read all system states and registers online, producing full real-time system traces.
 
-## Getting started
+## Overview of lab setup
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+For VHDL/FPGA-course lab works you need to have 
+1. Lab VM running on VirtualBox: VM provides Xilinx development tools- Vivado ML.
+2. TUAS gitlab account and working git skills (developed alongside the labs). Lab instructions and files are distributed from this lab instructions repository, and you will return your work into your personal return repository.
+3. PYNQ FPGA-development board
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Lab assignment
 
-## Add your files
+### Step 1: Install VM
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+Download VM image from emblab ftp server ftp://172.27.0.40/Embedded-Linux/raspi-cross-emblab.ova (for this you need to be connected to lab Ethernet socket). Just copy the URL to Windows File Manager address bar. Browsers do not support insecure ftp any more.
+Import VM to VirtualBox.
+Modify configuration:
+- "Bridged" network is recommended. You need to attach the bridge to your Ethernet network interface card.
+- Check the amount of CPU cores and memory allocated for the VM. 2 cores + 2GB RAM should do, but double that amount is better.
+- VM user/passwd is student/student
+Check that you can start the VM, log in and have Ubuntu desktop running with internet connectivity.
 
+### Step 2: Fork lab repository
+
+Log into TUAS gilab https://git.dc.turkuamk.fi/ and in main menu, switch to Groups / Embedded Linux. In that group there is repository `embedded-linux-labs`. Create a private <b>fork</b> to your personal namespace. A fork is a copy of a project. Forking a repository allows you to make changes without affecting the original project. This forked project works as your return repository.  
+Please add users `jppaalas` and `jarno.tuominen` to the project with "Reporter" role.
+
+### Step 3: Customize VM
+
+The installed VM is naturally the same for all students, but will want to use your own identity to sync with TUAS gitlab repository. 
+- Configure git identity
+```bash
+   student@student-VirtualBox:~$ git config --global user.name "Mona Lisa"
+   student@student-VirtualBox:~$ git config --global user.email "YOUR_EMAIL"
 ```
-cd existing_repo
-git remote add origin https://git.dc.turkuamk.fi/tuas_vhdl_fpga/student_material/lab_exercises.git
-git branch -M main
-git push -uf origin main
+- Create keypair for the VM:
+```bash
+   student@student-VirtualBox:~$ ssh-keygen -t rsa -b 2048 -f /home/student/.ssh/id_rsa -q -N ""
 ```
+- Copy your public key to your forked project in TUAS gitlab: print your public key on terminal, copy content and paste to TUAS gitlab in browser (top right corner, "Edit profile / SSH Keys").
+```bash
+   student@student-VirtualBox:~$ cat /home/student/.ssh/id_rsa.pub
+```
+- (Change passwd for student on VM)
 
-## Integrate with your tools
+### Step 4: Clone your remote repository to your VM
 
-- [ ] [Set up project integrations](https://git.dc.turkuamk.fi/tuas_vhdl_fpga/student_material/lab_exercises/-/settings/integrations)
+```bash
+   student@student-VirtualBox:~$ git clone git@git.dc.turkuamk.fi:YOUR-NAMESPACE/embedded-linux-labs.git
+```
+If gitlab asks for credentials, then your SSH keys setting has failed.  
+You should now have a local git repository containing all lab assignments and files, linked to a private remote repository in TUAS gitlab. 
 
-## Collaborate with your team
+### Step 5: git
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+All your lab work will end up in your git repository, so it is necessary develop git skills as well.  
+Check the material and exercises [on this page](git_tutorial.md)
 
-## Test and Deploy
+### Step 6: C native compilation
 
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+[continued on next page...](compilation_process.md)
