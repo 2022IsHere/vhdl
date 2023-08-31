@@ -1,6 +1,9 @@
-# Embedded Linux lab setup
+# VHDL / FPGA course lab setup
 
 ## Introduction
+
+In this course we will learn fundementals of digital design in VHDL language by implementing several design on a FPGA-chip. In order to do that, we need a toolset, consisting of blaa blaa balaa
+
 
 Typically all embedded devices are developed in <b>cross-development environment</b>: The <b>development system</b> is a desktop PC with graphical IDE (Integrated Development Environment) providing editor for source code and debug capabilities, i.e. breakpoints, source code single line stepping, variable content visibility etc. The <b>target system</b> is an embedded device with very limited capabilities: low processing power, small memory size, no graphical user interfaces. Additionally the target runs on different CPU architecture, so it necessary to have <b>cross-compilation toolchain</b> in development system in order to produce machine code for target CPU.
 To enable debugging, the development system needs to be able to set and monitor application states within target system. There are a couple of solutions:
@@ -29,8 +32,8 @@ Check that you can start the VM, log in and have Ubuntu desktop running with int
 
 ### Step 2: Fork lab repository
 
-Log into TUAS gilab https://git.dc.turkuamk.fi/ and in main menu, switch to Groups / Embedded Linux. In that group there is repository `embedded-linux-labs`. Create a private <b>fork</b> to your personal namespace. A fork is a copy of a project. Forking a repository allows you to make changes without affecting the original project. This forked project works as your return repository.  
-Please add users `jppaalas` and `jarno.tuominen` to the project with "Reporter" role.
+Log into TUAS gilab https://git.dc.turkuamk.fi/ and in main menu, switch to Groups / TUAS_VHDL_FPGA / Student Material. In that group there is repository `lab_exercises`. Create a private <b>fork</b> to your personal namespace. A fork is a copy of a project. Forking a repository allows you to make changes without affecting the original project. This forked project works as your return repository.  
+Please add user `jarno.tuominen` to the project with "Reporter" role.
 
 ### Step 3: Customize VM
 
