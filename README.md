@@ -2,16 +2,18 @@
 
 ## Introduction
 
-In this course we will learn fundementals of digital design in VHDL language by implementing several design on a FPGA-chip. In order to do that, we need a toolset, consisting of
+In this course we will learn fundamentals of digital design in VHDL language by implementing several designs on a FPGA-chip. In order to do that, we need a toolset, consisting of (at least):
 
 - design capture (schematics / block diagram / text editor)
 - simulator
 - synthesis
-- place and route tools
+- place and route
+- timing analysis
+- device programming tools
 
-Such a toolset for FPGAs is vendor-dependent - at least from place and route to device programming. In this course we are going to use a Field Programmabla Gate Array (FPGA) by AMD (Xilinx), the corresponding toolset is Xilinx Vivado.
+Such a toolset for FPGAs is vendor-dependent - at least from place and route to device programming. In this course we are going to use a Field Programmable Gate Array (FPGA) by AMD (Xilinx), the corresponding toolset is Xilinx Vivado.
 
-The size of the development tool chain is quite huge - the minimum installation at the moment is roughly 50 gigabytes. In order to make the installation process easier across different platforms (Windows/Linux/Mac), a virtual machine approach is taken. 
+The size of the development tool chain is quite huge - the minimum installation at the moment is roughly 50 gigabytes. In order to make the installation process easier across different platforms (Windows/Linux/Mac), a virtual machine approach is taken.
 
 
 ## Overview of lab setup
