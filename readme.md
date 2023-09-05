@@ -1,4 +1,4 @@
-# embedded-linux-labs
+# VHDL-FPGA-labs
 
 
 ## Student instructions
