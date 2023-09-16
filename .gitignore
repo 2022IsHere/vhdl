@@ -3,9 +3,9 @@
 
 # But not these files...
 !.gitignore
-!*.xpr
-!*/Source/*.vhd
-!*/Source/*.xdc
+!*/**.xpr
+!*/Source/vhdl/*.vhd
+!*/Source/constr/*.xdc
 
 # ...even if they are in subdirectories
 !**/
