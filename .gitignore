@@ -2,11 +2,11 @@
 *
 
 # But not these files...
-!.gitignore
-!LAB*/*.xpr
-!LAB*/Source/vhdl/*.vhd
-!LAB*/Source/constr/*.xdc
+#!.gitignore
+#!LAB*/*.xpr
+#!LAB*/Source/vhdl/*.vhd
+#!LAB*/Source/constr/*.xdc
 
 # ...even if they are in subdirectories
-!**/
+#!**/
 
