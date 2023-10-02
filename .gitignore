@@ -6,7 +6,7 @@
 !*/**.xpr
 !*/Source/vhdl/*.vhd
 !*/Source/constr/*.xdc
-
+!.txt
 # ...even if they are in subdirectories
 !**/
 
