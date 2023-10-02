@@ -1,0 +1,19 @@
+Question 1: How many look-up tables does the design use?
+
+There are 3 LUTs in the design.
+
+Question 2: How many registers are used in the design?
+
+There are no registers used in the design because there is no memory needed.
+
+Question 3: How many ports have you defined in the entity?
+
+We defined 9 ports in the entity but there are 14 I/O counts in the eloborated design.
+
+Question 4: Compare the eloborated design to synthesized design at the schmantics level - what is the difference?
+
+The synthesis design takes the logic and the components; then it compresses all to LUTs.
+
+Question 5: Does the design fulfill all the timing requirements? What were those?
+
+We didnt have any timing constraints.
