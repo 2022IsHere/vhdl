@@ -1,0 +1,106 @@
+Answers for LAB3_Counters , Uras Ayanoglu & Sebastian Sopola
+
+Q1: What are the maximum values of ja, jb, int_a and int_b?
+
+The highest values of ja and jb = FB, 251 in decimal form.
+For the int_a and int_b , the highest value is 70648827
+ 
+Q2: How many registers there are for ja and jb?
+
+There are 13 registers for ja and jb
+
+Q3: Explain where the registers come from. 
+Ask/Learn int_a is assigned as 0 but no limitation and it is assigned signal ja which is 8 bits
+int_b is set from 0 to 31 which makes 5 bit usage to display those numbers and assigned to signal jb 
+so in overall 8 bits from int a and 5 bits from int_b would make 13 registers.
+
+Q4: What happens now when you run the simulation long enough? 
+
+After enabling the range check for the simulator, we get to see the highest values for ja, jb,  int_a, and int_b as 31. This is because int_b is limited to 31.
+
+Q5: What is the total number of registers and LUTs in the design?
+There are 13 registers and 4 LUTs.
+
+Q6: Does the number of registers match with the register count in the elaborated design? If not, why? 
+In the elaborated design we can see that there are 2 registers (flip flop) but in the synthesized design we see 13. This is because elaborated design takes the actual values of the vhdl code but after running the synthesis, optimization starts and some unused bits are discarded for efficiency reasons.
+
+Q7: Does the number of registers match with the utilization report? 
+The number of the registers match with the utilization report. We can see the ja all 8 bits are used whereas jb only five bits are used. In the post-synthesis-functional simulation we see that by seeing and X mark on  jb's 0 to 5 bits are used.
+
+Q8: What is the maximum value of ja and jb? Do these meet your expectations? 
+After changing the values, ja and jb's max value is now 25. Yes indeed, seeing this change met our expectations.
+
+Q9: Did the amount of used resources change? 
+The amount of used resources didnt change, because changing the int_b value from 31 to 25 didnt change the required bits to represent the number.
+
+Q10: What is the maximum value of ja and jb? Do these meet your expectations? 
+
+Modify the design so that jb wraps over at 25. (Tip: you need to add a condition when int_b is either set to zero or increased). 
+
+Max value for jb is now 25 and then it is reseted to 0 where as ja doesnt have any wrapper so it is incremented each time, and the highest value that it can take is 2^8
+
+Q11: Does the simulation pass now without erros?  Yes
+
+Q12: What is the maximum value of jb? Max jb is 25
+
+Q13: What is the difference compared to previous? 
+Now in the new eloborated design, int_b has a 2 to 1 multiplexer which means that int_b has two conditions that are b is reseted when it reaches to 25 and the other condition is that int_b is incremented normally.
+
+Q14: what is the number of registers and LUTs? Does this meet your expectations?
+
+The number of registers and LUTs remain the same (13, 4)
+
+Change the design once again, so that range of signal int_b is again from 0 to 31 (but it still wraps over at 25). Synthesize the design and check resource utilization.  
+
+Q15: Is the result expected? Yes the results are expected , because we are not letting int_b to exceed over 25.
+
+* Q16: What is the number of jb output register in the elaborated design schematics? Can you explain this? 
+For starters number of jb is one. We need to remember only the last instance.
+
+Q17: How many registers/luts? Is the result expected? 
+The amount of registers and LUTs are still the same. (13, 4)
+
+Run the implementation flow (place & route) and check the resource utilization.  
+
+Q18: Is this the optimal usage of registers? If not, why? 
+
+Yes this is the optimal solution. In the synthesis and implementation process registers and LUTs are optimized.
+Below is the table about Registers, LUTs utilization:
+
++-------------------------+------+-------+------------+-----------+-------+
+|        Site Type        | Used | Fixed | Prohibited | Available | Util% |
++-------------------------+------+-------+------------+-----------+-------+
+| Slice LUTs*             |    4 |     0 |          0 |     53200 | <0.01 |
+|   LUT as Logic          |    4 |     0 |          0 |     53200 | <0.01 |
+|   LUT as Memory         |    0 |     0 |          0 |     17400 |  0.00 |
+| Slice Registers         |   13 |     0 |          0 |    106400 |  0.01 |
+|   Register as Flip Flop |   13 |     0 |          0 |    106400 |  0.01 |
+|   Register as Latch     |    0 |     0 |          0 |    106400 |  0.00 |
+| F7 Muxes                |    0 |     0 |          0 |     26600 |  0.00 |
+| F8 Muxes                |    0 |     0 |          0 |     13300 |  0.00 |
++-------------------------+------+-------+------------+-----------+-------+
+
+
+In the table we can see that registers and LUTs are utilized by 0.01 %
+
+Q19: See the constraints file. What were the timing requirements for this design? 
+
+The line : create_clock -add -name sys_clk_pin -period 8.00 -waveform {0 4} [get_ports { sysclk }]; is the line that makes the restrictions for our design where:
+
+-period 8.00: This specifies that the clock period is 8.00 ns, which corresponds to a frequency of 125 MHz.
+-waveform {0 4}: This specifies the waveform of the clock signal. It indicates that the clock signal should rise at 0 ns and fall at 4 ns within each clock period, creating a 50% duty cycle.
+
+
+Q20:  What is the set-up time margin? Try with 250MHz clock, does it still fulfil timing requirements? 
+
+200ns is our set-up time margin for our implementation.
+
+If wee want our design to work under 250MHz, then we need to change constraints file as:
+
+create_clock -add -name sys_clk_pin -period 4.00 -waveform {0 2} [get_ports { sysclk }];
+
+where period comes from 1 / 250 equals to 4.00 ns and wave form turns to be {0 2}, indicating that the clock signal should rise at 0 ns and fall at 2 ns within each clock period, creating a 50% duty cycle.
+
+Yes, after running the synthesis and implementation, implementation design report states that user-specified timing constraints are met or not. In our case, all the timing constraints are met.
+
+
