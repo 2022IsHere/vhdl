@@ -10,7 +10,7 @@ create_clock -add -name sys_clk_pin -period 8.00 -waveform {0 4} [get_ports { sy
 
 # Pin Constraints
 set_property -dict {PACKAGE_PIN E3 IOSTANDARD LVCMOS33} [get_ports i_clk]   # 125MHz clock source
-set_property -dict {PACKAGE_PIN D3 IOSTANDARD LVCMOS33} [get_ports i_reset]  # Reset signal
+set_property -dict {PACKAGE_PIN D3 IOSTANDARD LVCMOS33} [get_ports btn_reset]  # Reset signal
 set_property -dict {PACKAGE_PIN C3 IOSTANDARD LVCMOS33} [get_ports o_clk]    # Output clock
 
 ##Switches
