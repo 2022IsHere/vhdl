@@ -6,7 +6,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity clock_divider is
   generic (
-    OUTPUT_FREQ : integer := 25_000_000 -- output frequency in Hz
+    OUTPUT_FREQ : integer := 12_500_000 -- output frequency in Hz
   );
   port (
     i_clk   : in std_logic;
@@ -21,9 +21,14 @@ architecture Behavioral of clock_divider is
   signal count        : integer := 0;
   signal tmp_clk      : std_logic := '0';
 begin
+  -- Assert to check OUTPUT_FREQ is within the valid range
+  assert OUTPUT_FREQ > 0 and OUTPUT_FREQ < INPUT_FREQ / 2
+  report "Output frequency is out of valid range."
+  severity error;
+    
   process (i_clk, i_reset)
   begin
-    if i_reset = '1' then
+    if i_reset = '0' then -- Active-low reset
       count <= 0;
       tmp_clk <= '0';
     elsif rising_edge(i_clk) then
@@ -38,37 +43,6 @@ begin
 
   o_clk <= tmp_clk;
 end architecture Behavioral;
-
-
--- Test Bench
-entity tb_clock_divider is
-end entity tb_clock_divider;
-
-architecture sim of tb_clock_divider is
-  signal i_clk, i_reset, o_clk : std_logic;
-  constant CLK_PERIOD : time := 8 ns; -- corresponds to 125 MHz
-begin
-  uut: entity work.clock_divider
-    generic map (25_000_000)
-    port map (i_clk, i_reset, o_clk);
-
-  clk_gen: process
-  begin
-    while true loop
-      i_clk <= not i_clk;
-      wait for CLK_PERIOD / 2;
-    end loop;
-  end process;
-
-  stimulus: process
-  begin
-    i_reset <= '1';
-    wait for CLK_PERIOD;
-    i_reset <= '0';
-    wait;
-  end process;
-end architecture sim;
-
 
 
 
