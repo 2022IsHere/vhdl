@@ -1,0 +1,33 @@
+Question 1. Can you find a reason, why we should not use 125MHz system clock for button pulser and FSM? 
+
+
+Using a 125 MHz system clock for the button pulser and the finite state machine (FSM) for RGB channel selection in a design may not be ideal for several reasons:
+
+1. Unnecessary Complexity and Resource Usage:
+
+High Frequency Operation: At 125 MHz, the logic inside the button pulser and FSM would need to handle transitions and checks at a very high rate. This can add unnecessary complexity and potentially consume more FPGA resources (like flip-flops and logic blocks) than needed.
+
+Debounce Handling: Button debouncing typically deals with human-scale actions (presses and releases), which occur over milliseconds. Operating at 125 MHz for debouncing would mean processing a lot of redundant clock cycles where no actual change in button state occurs.
+
+2. Power Consumption:
+
+Increased Power Draw: Higher frequency operation leads to increased power consumption. For tasks like button debouncing and LED control, which don't require high-speed processing, using such a fast clock is inefficient and wastes power.
+
+3. Timing and Synchronization Issues:
+
+Timing Challenges: At higher frequencies, timing closure becomes more challenging. You might encounter issues where the logic cannot complete its operation within one clock cycle, leading to timing violations.
+
+Synchronization Overhead: If other parts of your system operate at lower frequencies, you'll need additional synchronization logic to interface the high-speed logic with slower parts, adding to design complexity.
+
+4. Reduced Noise Immunity:
+
+Sensitivity to Noise: Faster clock edges are more susceptible to noise, which can be particularly problematic for inputs like buttons that are prone to bouncing and external disturbances.
+
+Conclusion
+For tasks such as button debouncing and FSM for LED control, a lower frequency like 1 kHz is more appropriate. It matches the scale of human interactions better, saves power, reduces complexity, and avoids unnecessary challenges related to high-frequency digital design. The 125 MHz clock is more suitable for operations that genuinely require high-speed processing.
+
+
+
+
+
+
