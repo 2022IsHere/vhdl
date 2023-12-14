@@ -22,6 +22,8 @@ ARCHITECTURE behavior OF lab4_top IS
     SIGNAL active_channel : INTEGER RANGE 0 TO 2 := 0;
 
     SIGNAL pwm_value_r, pwm_value_g, pwm_value_b: std_logic_vector(7 DOWNTO 0) := (others => '0');
+    
+    SIGNAL pwm_r_output, pwm_g_output, pwm_b_output : std_logic; -- New signals for PWM outputs
 
     COMPONENT Clock_Divider
         GENERIC (
@@ -100,14 +102,15 @@ BEGIN
         );
 
     -- Instantiate the RGB Channel Selector
+    -- RGB Channel Selector no longer directly drives the LED outputs.
     uutRGB: rgb_channel_selector
         PORT MAP(
             clk       => asy_clock, -- Receive the clock_out from clock_divider
             btn_pulse => selected_signal,
-            n_reset   => n_reset,
-            led5_r    => led5_r,
-            led5_g    => led5_g,
-            led5_b    => led5_b
+            n_reset   => n_reset
+            --led5_r    => led5_r,
+            --led5_g    => led5_g,
+            --led5_b    => led5_b
         );
 
     -- Instantiate PWM Controllers for RGB channels
@@ -119,7 +122,7 @@ BEGIN
             clk       => sysclk,
             n_reset   => n_reset,
             pwm_value => pwm_value_r,
-            pwm_out   => led5_r
+            pwm_out   => pwm_r_output  -- Connect to new signal
         );
 
     pwm_g: pwm_controller
@@ -130,7 +133,7 @@ BEGIN
             clk       => sysclk,
             n_reset   => n_reset,
             pwm_value => pwm_value_g,
-            pwm_out   => led5_g
+            pwm_out   => pwm_g_output  -- Connect to new signal
         );
 
     pwm_b: pwm_controller
@@ -141,7 +144,7 @@ BEGIN
             clk       => sysclk,
             n_reset   => n_reset,
             pwm_value => pwm_value_b,
-            pwm_out   => led5_b
+            pwm_out   => pwm_b_output  -- Connect to new signal
         );
            
         -- Button Logic and PWM Value Management
@@ -189,10 +192,11 @@ BEGIN
         
             
 
-    
+        -- Directly connect PWM outputs to LED outputs
+        led5_r <= pwm_r_output;
+        led5_g <= pwm_g_output;
+        led5_b <= pwm_b_output;
         
-        --To remove when finished:
-        --clock_out <= asy_clock;
-        --pulse_out <= selected_signal;
+
 end;
 
