@@ -3,7 +3,7 @@
 <!--                                                         -->
 <!-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="61" Path="/home/uras/Development/VHDL/LAB2/LAB2.xpr">
+<Project Version="7" Minor="61" Path="/home/sebastian/Development/VHDL/LAB2/LAB2.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="e83c5f6edbc84c5cae0f7ed297e0844f"/>

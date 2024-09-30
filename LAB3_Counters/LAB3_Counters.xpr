@@ -3,7 +3,7 @@
 <!--                                                         -->
 <!-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="61" Path="/home/uras/Development/VHDL/lab_exercises/LAB3_Counters/LAB3_Counters.xpr">
+<Project Version="7" Minor="61" Path="/home/sebastian/Development/VHDL/LAB3_Counters/LAB3_Counters.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="c923f394012a426883b5572858e381c0"/>

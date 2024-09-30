@@ -3,7 +3,7 @@
 <!--                                                         -->
 <!-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="61" Path="/home/uras/Development/VHDL/lab_exercises/LAB4_Button_With_Repeat/LAB4_Button_With_Repeat.xpr">
+<Project Version="7" Minor="61" Path="/home/sebastian/Development/VHDL/LAB4_Button_With_Repeat/LAB4_Button_With_Repeat.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="5f56424943984e16bca0cd7a38096184"/>

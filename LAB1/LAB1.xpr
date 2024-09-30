@@ -3,7 +3,7 @@
 <!--                                                         -->
 <!-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="61" Path="/home/student/Development/VHDL/lab_exercises/LAB1/LAB1.xpr">
+<Project Version="7" Minor="61" Path="/home/student/Development/VHDL/LAB1/LAB1.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="5b37d1088f8d4f5b9bcb9bcdaa682b45"/>

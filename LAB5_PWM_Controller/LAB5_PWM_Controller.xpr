@@ -3,7 +3,7 @@
 <!--                                                         -->
 <!-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="61" Path="/home/uras/Development/VHDL/lab_exercises/LAB5_PWM_Controller/LAB5_PWM_Controller.xpr">
+<Project Version="7" Minor="61" Path="/home/sebastian/Development/VHDL/LAB5_PWM_Controller/LAB5_PWM_Controller.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="20a99d7bcefb4ec799e72cd1f36bdcc0"/>
